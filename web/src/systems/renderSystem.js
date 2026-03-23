@@ -13,6 +13,7 @@ export class RenderSystem {
   }
 
   render(state) {
+    if (!this.ctx || !this.statusEl || !this.actionsEl || !this.logsEl) return;
     this.renderStage(state);
     this.renderStatus(state);
     this.renderActions(state);
@@ -25,14 +26,16 @@ export class RenderSystem {
 
     ctx.fillStyle = "#6ad7ff";
     ctx.font = "bold 24px sans-serif";
-    ctx.fillText(`小羽 HP ${state.player.hp}/${state.player.maxHp}`, 24, 44);
+    ctx.fillText(state.player.portrait, 24, 44);
+    ctx.fillText(`小羽 HP ${state.player.hp}/${state.player.maxHp}`, 56, 44);
 
     ctx.fillStyle = "#ff8d8d";
-    ctx.fillText(`${state.enemy.name} HP ${state.enemy.hp}/${state.enemy.maxHp}`, 24, 96);
+    ctx.fillText(state.enemy.sprite, 24, 96);
+    ctx.fillText(`${state.enemy.name} HP ${state.enemy.hp}/${state.enemy.maxHp}`, 56, 96);
 
     ctx.fillStyle = "#dce5ff";
     ctx.font = "18px sans-serif";
-    ctx.fillText(`章节：${state.chapter.name}`, 24, 154);
+    ctx.fillText(`章节：${state.chapter.backdrop || "🌌"} ${state.chapter.name}`, 24, 154);
 
     if (state.finished) {
       ctx.fillStyle = state.winner === "player" ? "#8cffb7" : "#ff7f7f";
